@@ -31,7 +31,10 @@ def startGame():
         игрок открывает любую закрытую клетку,
         результат проверяется на наличие мины или выигрышной ситуации
     """
-    pass
+    createGame()
+    while isFinish():
+        show()
+        goPlayer()
 
 startGame()
 print("Игра завершена")

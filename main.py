@@ -1,6 +1,6 @@
 import random
-SIZE_OF_FIELD = 10
-COUNT_MINES = 10
+SIZE_OF_FIELD = 5
+COUNT_MINES = 5
 
 def getTotalMines(FIELDS_MINES, i ,j):
     n = 0
@@ -66,12 +66,17 @@ def goPlayer():
         flagrigtinput = False
     return (x,y)
 
-def isFinish():
+def isFinish(FIELD, FIELD_MINES):
     """
     isFinish определяет текущее состояние игры:
     выиграли, проиграли, игра продолжается
     """
-    pass
+    for i in range(SIZE_OF_FIELD*SIZE_OF_FIELD):
+        if FIELD[i] != -2 and FIELD_MINES[i] < 0: return -1
+    for i in range(SIZE_OF_FIELD * SIZE_OF_FIELD):
+        if FIELD[i] == -2 and FIELD_MINES[i] >= 0: return 1
+    return -2
+
 
 def startGame():
     """ startGame функция запуска игры, отображает игровое поле,
@@ -82,8 +87,19 @@ def startGame():
     FIELD_MINES = [0]*SIZE_OF_FIELD *SIZE_OF_FIELD
 
     createGame(FIELD_MINES)
-    show(FIELD_MINES)
-
-startGame()
-goPlayer()
+    # show(FIELD)
+    finishState = isFinish(FIELD, FIELD_MINES)
+    while finishState > 0:
+        show(FIELD)
+        x, y = goPlayer()
+        FIELD[x * SIZE_OF_FIELD + y] = FIELD_MINES[x * SIZE_OF_FIELD + y]
+        finishState = isFinish(FIELD, FIELD_MINES)
+    if isFinish(FIELD, FIELD_MINES) < 0:
+        show(FIELD)
+    return finishState
+res = startGame()
+if res == -1:
+    print("Вы проиграли!")
+else:
+    print('Вы выиграли!')
 print("Игра завершена")

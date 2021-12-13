@@ -51,7 +51,20 @@ def goPlayer():
     goPlayer запрашивает у пользователя координаты закоытой клетки
     игрового поля
     """
-    pass
+    flagrigtinput = True
+    while flagrigtinput:
+        x, y = input('Введите две координаты через пробел: ').split()
+        if not x.isdigit() or not y.isdigit():
+            print("Координатты введены неверно")
+            continue
+        x = int(x) - 1
+        y = int(y) - 1
+
+        if x < 0 or x >= SIZE_OF_FIELD or y < 0 or y >= SIZE_OF_FIELD:
+            print("Координаты выходят за границы поля")
+            continue
+        flagrigtinput = False
+    return (x,y)
 
 def isFinish():
     """
@@ -68,23 +81,9 @@ def startGame():
     FIELD = [-2]*SIZE_OF_FIELD*SIZE_OF_FIELD
     FIELD_MINES = [0]*SIZE_OF_FIELD *SIZE_OF_FIELD
 
-    # rnd = random.Random()
-    # n = COUNT_MINES
-    # while n > 0:
-    #     i = rnd.randrange(SIZE_OF_FIELD)
-    #     j = rnd.randrange(SIZE_OF_FIELD)
-    #     print('coordinate', i, j)
-    #     print('значение в поле', FIELD_MINES[i][j])
-    #     if FIELD_MINES[i][j] == 0:
-    #         FIELD_MINES[i][j] = -1
-    #         n -= 1
-    #         print('n= ', n)
     createGame(FIELD_MINES)
     show(FIELD_MINES)
-    # while isFinish():
-    #     show()
-    #     goPlayer()
-    # print(FIELD)
-    # print(FIELD_MINES)
+
 startGame()
+goPlayer()
 print("Игра завершена")
